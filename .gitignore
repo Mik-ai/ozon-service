@@ -1,0 +1,12 @@
+#folders
+logs
+req_bodies
+.vscode
+*__pycache__
+
+# extentions
+*.json
+
+# files
+config.py
+

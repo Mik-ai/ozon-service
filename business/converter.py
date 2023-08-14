@@ -1,0 +1,26 @@
+# used for triming unnecessary fields after getting ingormation from ozon
+NECESSARY_FIELDS_FOR_OZON_EXPORT = [
+    "id",
+    "name",
+    "attributes",
+    "depth",
+    "dimension_unit",
+    "height",
+    "weight",
+    "weight_unit",
+    "width",
+    "category_id",
+    "images",
+    "offer_id",
+    "old_price",
+    "price",
+    "primary_image",
+    "vat",
+    "created_at",
+    "state",
+    "state_name",
+    "validation_state",
+    "state_description",
+    "item_errors",
+    "barcode"
+]
