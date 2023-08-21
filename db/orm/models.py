@@ -118,3 +118,14 @@ class MxSlItem(Base):
     id: Mapped[int] = mapped_column(primary_key=True)
     offer_id: Mapped[int] = mapped_column("sid")
     product_id: Mapped[int] = mapped_column("product_id")
+
+
+class MkProductsOzonFrank(Base):
+    __tablename__ = "mk_products_ozon_frank"
+
+    marketplace_id: Mapped[int] = mapped_column(nullable=False, primary_key=True)
+    task_id: Mapped[int] = mapped_column(nullable=False)
+    created_at = mapped_column(TIMESTAMP, nullable=False)
+    updated_at = mapped_column(TIMESTAMP, nullable=False)
+    price = mapped_column(NUMERIC, nullable=False)
+    is_deleted: Mapped[bool] = mapped_column(nullable=False, default=False)

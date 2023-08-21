@@ -2,9 +2,9 @@ from .converter import NECESSARY_FIELDS_FOR_OZON_EXPORT
 
 from datetime import datetime
 
-from db import mx_products_ozon
+from db import mx_products_ozon_async
 from db.orm.models import MxProductsOzon
-from external_api.ozon import OzonApi
+from external_api.ozon_async import OzonApi
 
 import re
 import logging
@@ -12,10 +12,8 @@ import time
 
 
 class MassProductsEditor:
-    def __init__(self, items: list = None) -> None:
-        self.__api = OzonApi()
-        if items:
-            self.collect_products(items)
+    def __init__(self, ozon_api: OzonApi) -> None:
+        self.__api = ozon_api
 
     def __re_sub_i(self, input: str, str_pattern: str, str_change: str) -> str:
         """internal method of editing str by regex, with ignorecase flag
@@ -32,7 +30,7 @@ class MassProductsEditor:
 
         return re.sub("(,$)|(, \.)", ".", re_pattern.sub(str_change, input).strip())
 
-    def collect_products(self, items: list) -> None:
+    async def collect_products(self, items: list) -> None:
         """set items and start collectings full_items
 
         Args:
@@ -40,7 +38,7 @@ class MassProductsEditor:
         """
         self.items = items
         market_product_ids = [x.marketplace_id for x in self.items]
-        self.__collect_full_items(market_product_ids)
+        await self.__collect_full_items(market_product_ids)
         self.items = [
             x
             for x in self.items
@@ -77,16 +75,16 @@ class MassProductsEditor:
             )
             logging.warning(log_message)
 
-    def __collect_full_items(self, market_product_ids: list[int]) -> None:
+    async def __collect_full_items(self, market_product_ids: list[int]) -> None:
         """load items info and items attributes from ozon, then combine it
 
         Args:
             market_product_ids (list): list of products ids on ozon
         """
-        items_attrs = self.__api.request_product_attributes(
+        items_attrs = await self.__api.request_product_attributes(
             marketplace_ids=market_product_ids
         )
-        items_info = self.__api.request_products_info(
+        items_info = await self.__api.request_products_info(
             marketplace_ids=market_product_ids
         )
 
@@ -202,7 +200,7 @@ class MassProductsEditor:
 
         self.full_items = products
 
-    def __commit_db(self, values_list: list) -> None:
+    async def __commit_db(self, values_list: list) -> None:
         """send to db followong changes: add to product task_id operation
 
         Args:
@@ -218,9 +216,9 @@ class MassProductsEditor:
             }
             for x in values_list
         ]
-        mx_products_ozon.bulk_update(data)
+        await mx_products_ozon_async.bulk_update(data)
 
-    def __commit_ozon(self, products: list) -> str:
+    async def __commit_ozon(self, products: list) -> str:
         """sending update to ozon
 
         Args:
@@ -229,14 +227,14 @@ class MassProductsEditor:
         Returns:
             str: task_id from ozon
         """
-        task_id = self.__api.request_import_ozon(products)
+        task_id = await self.__api.request_import_ozon(products)
 
         log_message = f"{time.ctime()} sended to ozon, task_id: {task_id}"
         logging.info(log_message)
 
         return task_id
 
-    def commit_changes(self):
+    async def commit_changes(self):
         """update ozon products and commit changes to db"""
         self.__process_products_before_export()
         step = 100
@@ -245,9 +243,9 @@ class MassProductsEditor:
         )
         for chunk in chunks:
             try:
-                task_id = self.__commit_ozon(chunk)
+                task_id = await self.__commit_ozon(chunk)
                 db_values = [(x["id"], x["offer_id"], task_id) for x in chunk]
-                self.__commit_db(db_values)
+                await self.__commit_db(db_values)
             except Exception:
                 log_message = f"{time.ctime()} export_error."
                 logging.error(log_message)
