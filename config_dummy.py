@@ -18,8 +18,8 @@ TESSERACT_PATH = r"D:\Program Files\tesseractOCR\tesseract.exe"
 
 DB_LOGIN = "login"
 DB_PASSWORD = "password"
-DB_IP = "141.101.204.99:5432"
-DB_NAME = "rusexpress"
+DB_IP = ""
+DB_NAME = ""
 
 
 def batch_lengh_generator(step: int, data: list):
