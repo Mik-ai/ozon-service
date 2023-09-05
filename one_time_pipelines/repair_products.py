@@ -2,7 +2,7 @@ from json_work import open_json, save_json
 from db.alchemy_di import (
     custom_orm_select,
 )
-from db.orm.models import MxProductsOzon, MkProductsOzonFrank
+from db.orm.schema_public import MxProductsOzon, MkProductsOzonFrank
 from db.orm.temp_models import Photo
 from business.products import MassProductsEditor
 from external_api.ozon import OzonApi
@@ -11,10 +11,6 @@ from sqlalchemy import update
 from logger import Logger
 
 from difflib import SequenceMatcher
-
-# str1 = "Футболка для девочки, цвет лиловый/попугай, рост 128 см "
-# str2 = "Футболка для девочки, цвет лиловый/попугай, рост 135 см "
-# SequenceMatcher(None, str1, str2).ratio()
 
 
 def append_items_json(items: dict):
@@ -60,7 +56,6 @@ def start_rapair_really_fuckup():
 
             except:
                 print(f"no image for: {item['id']}")
-        print("debug")
         editor.commit_changes()
 
     print("done!")
@@ -94,10 +89,6 @@ def create_really_fuckup():
         file_name="really_fuckedup_products.json",
     )
 
-    print("debug")
-    print("debug")
-    print("debug")
-
 
 def process_fuckup_products():
     result = open_json("info_500k_data.json")
@@ -121,9 +112,6 @@ def process_fuckup_products():
             )
         except:
             pass
-
-    # empty_prim_image = [x["id"] for x in result if x["primary_image"] == ""]
-    # fuckup_items = [x for x in fuckup_items if x[0] not in empty_prim_image]
 
     save_json({"items": fuckup_items}, "fuckup_products.json")
 
@@ -165,7 +153,6 @@ def start_process_mk_franks():
         marketplace_ids = [x.marketplace_id for x in batch]
         products_info = api.request_products_info(marketplace_ids=marketplace_ids)
         result += products_info
-    # save_json(file_name="info_500k_data", data={x["id"]:x for x in result})
 
     print("done!")
     print("done!")
@@ -184,7 +171,6 @@ def test_rapair_lamp():
         where_params=[MkProductsOzonFrank.marketplace_id.in_(product_ids)],
     )
 
-    # lamps_mar_id = [454540157, 454540285]
     editor = MassProductsEditor()
 
     lamps_prod_ozon = custom_orm_select(
@@ -216,19 +202,13 @@ def test_rapair_lamp():
         item["price"] = str(prod_ozon_dict_by_m_id[item["id"]].price)
         try:
             print(f"{item['id']} has have - ", item["primary_image"])
-            # prduct_id = prod_ozon_dict_by_m_id[item["id"]].product_id
             item["primary_image"], *item["images"] = photos_dict[item["id"]]
             item["images"] = item["images"][:14]
 
         except:
             print(f"no image for: {item['id']}")
-    print("debug")
-    print("debug")
 
     editor.commit_changes()
-    print("debug")
-    print("debug")
-    print("debug")
 
 
 def start_repair():
@@ -253,7 +233,3 @@ def start_repair():
                 and marketplace_id != image
             ):
                 repairing_pairs.append((marketplace_id, image))
-
-    print("debug")
-    print("debug")
-    print("debug")
