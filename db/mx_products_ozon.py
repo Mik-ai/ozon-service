@@ -1,5 +1,5 @@
 from config import engine, do_retry_on_fail
-from .orm.models import MxProductsOzon
+from .orm.schema_public import MxProductsOzon
 
 from sqlalchemy.orm import Session
 from sqlalchemy import update

@@ -2,7 +2,7 @@ from config import engine_async, retry_async
 from sqlalchemy.ext.asyncio import async_sessionmaker
 from sqlalchemy import update
 
-from db.orm.models import MxProductsOzon
+from db.orm.schema_public import MxProductsOzon
 
 
 @retry_async(5)

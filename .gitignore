@@ -2,6 +2,7 @@
 logs
 req_bodies
 deprecated_jsons
+reports
 .vscode
 *__pycache__
 

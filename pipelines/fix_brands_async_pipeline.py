@@ -1,7 +1,7 @@
 import aiohttp, aiocache, asyncio
 
 from db.alchemy_di_async import custom_orm_select
-from db.orm.models import MxProductsOzon, MxProductsOzonBrandFix
+from db.orm.schema_public import MxProductsOzon, MxProductsOzonBrandFix
 from business.products_async import MassProductsEditor
 from external_api.ozon_async import OzonApi
 from json_work import open_json
@@ -16,10 +16,6 @@ to_process_items_queue = asyncio.Queue()
 cache_marketplace_ids = aiocache.caches.get("default")
 
 
-# todo:
-# cahce marketplace ids done!
-# add items that are not in cache to queue done!
-# write process method to process items and update on ozon also update to db done!
 async def download_task():
     while True:
         brand_name = await brand_names_queue.get()
@@ -76,13 +72,7 @@ async def process_task(session: aiohttp.ClientSession):
 
 
 async def pipeline_with_session():
-    """endpoint of editing products on ozon, created using thread pool pattern
-
-    Args:
-        products list: products from DB.
-    """
     brands_json = open_json("brands.json")
-    # save_json(data=brands_json, file_name="brands.json")
     brands = [
         x for x in brands_json if brands_json[x] != "additional verification processed"
     ]

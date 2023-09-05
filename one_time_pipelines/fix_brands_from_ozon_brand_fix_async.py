@@ -1,5 +1,5 @@
 from db.alchemy_di_async import custom_orm_select, custom_orm_bulk_update
-from db.orm.models import MxProductsOzonBrandFix, MxProductsOzon
+from db.orm.schema_public import MxProductsOzonBrandFix, MxProductsOzon
 from business.products_async import MassProductsEditor
 from external_api.ozon_async import OzonApi
 from config import OZON_CREDENTIALS, batch_lengh_generator

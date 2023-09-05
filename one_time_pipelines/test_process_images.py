@@ -1,11 +1,10 @@
-from db.orm.models import MxAsPrice, MxProductsOzon
+from db.orm.schema_public import MxAsPrice, MxProductsOzon
 from db.alchemy_di import custom_orm_select
 from business.products import MassProductsEditor
 from business.ocr_module import PyTesseractOCR
 
 from PIL import Image
 import requests
-from io import BytesIO
 
 
 def start_test():
@@ -30,7 +29,3 @@ def start_test():
 
     url = "https://cdn1.ozone.ru/s3/multimedia-i/6158404482.jpg"
     img = Image.open(requests.get(url, stream=True).raw)
-
-    print("debug")
-    print("debug")
-    print("debug")

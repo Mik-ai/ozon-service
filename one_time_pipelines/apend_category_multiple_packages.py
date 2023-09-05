@@ -1,4 +1,4 @@
-from db.orm.models import MxProductsOzon, MxAsPrice
+from db.orm.schema_public import MxProductsOzon, MxAsPrice
 from db.alchemy_di import custom_orm_select
 from external_api.ozon import OzonApi
 

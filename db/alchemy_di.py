@@ -1,5 +1,5 @@
 from config import engine, do_retry_on_fail
-from db.orm.models import MxProductsOzon, MxAsPrice, MxProductsOzonBrandFix
+from db.orm.schema_public import MxProductsOzon, MxAsPrice, MxProductsOzonBrandFix
 from sqlalchemy.orm import Session
 from sqlalchemy.dialects.postgresql import insert
 from sqlalchemy import select, update

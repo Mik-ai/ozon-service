@@ -1,7 +1,6 @@
 from config import engine
 from sqlalchemy import Table, Column, Integer
-from sqlalchemy.orm import DeclarativeBase, mapped_column, Mapped
-from sqlalchemy.dialects.postgresql import TEXT
+from sqlalchemy.orm import DeclarativeBase
 
 
 class Base(DeclarativeBase):

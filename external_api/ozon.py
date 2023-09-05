@@ -3,8 +3,6 @@ from requests.adapters import HTTPAdapter, Retry
 
 from config import OZON_CREDENTIALS, OZON_BASE_URL
 
-# from config_py import ozon_credentials,
-
 
 class OzonApi:
     base_url: str

@@ -1,6 +1,6 @@
 from business.products import MassProductsEditor
 import json_work
-from db.orm.models import MxAsPrice, MxProductsOzon
+from db.orm.schema_public import MxAsPrice, MxProductsOzon
 from db.alchemy_di import custom_orm_select
 from logger import Logger
 
@@ -102,7 +102,6 @@ def start_set_barcode_where_category_id_not_in():
             MxProductsOzon.barcode == "",
             MxProductsOzon.state_name.in_(["Готов к продаже", "Продается"]),
             MxAsPrice.barcode != "",
-            # MxProductsOzon.task_id == None,
         ],
     )
     items_from_db = items_from_db[:140000]

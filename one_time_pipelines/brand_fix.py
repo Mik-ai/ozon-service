@@ -1,7 +1,7 @@
 from db.mx_products_ozon_brand_fix import (
     insert_by_orm_conflict_do_update,
 )
-from db.orm.models import MxProductsOzonBrandFix, MxProductsOzon
+from db.orm.schema_public import MxProductsOzonBrandFix, MxProductsOzon
 from db import mx_products_ozon
 from json_work import open_json, save_json
 from logger import Logger

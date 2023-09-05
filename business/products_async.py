@@ -3,7 +3,7 @@ from .converter import NECESSARY_FIELDS_FOR_OZON_EXPORT
 from datetime import datetime
 
 from db import mx_products_ozon_async
-from db.orm.models import MxProductsOzon
+from db.orm.schema_public import MxProductsOzon
 from external_api.ozon_async import OzonApi
 
 import re
